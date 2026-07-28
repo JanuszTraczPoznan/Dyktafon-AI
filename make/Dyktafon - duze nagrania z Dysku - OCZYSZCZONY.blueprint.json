@@ -1,0 +1,3115 @@
+{
+  "name": "Dyktafon — duże nagrania z Dysku",
+  "flow": [
+    {
+      "id": 2,
+      "module": "google-drive:watchFilesInAFolder",
+      "version": 4,
+      "parameters": {
+        "limit": 1,
+        "select": "create",
+        "folderId": "/YOUR_GOOGLE_DRIVE_ID/YOUR_LARGE_AUDIO_FOLDER_ID",
+        "mimeType": "all",
+        "__IMTCONN__": 0,
+        "destination": "drive"
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        },
+        "restore": {
+          "parameters": {
+            "select": {
+              "label": "By Created Time"
+            },
+            "folderId": {
+              "path": [
+                "YOUR_GOOGLE_DRIVE_ID",
+                "03. Audio duże — do przetworzenia"
+              ]
+            },
+            "mimeType": {
+              "label": "All"
+            },
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GOOGLE_DRIVE_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            },
+            "destination": {
+              "label": "My Drive"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-restricted,google-drive",
+            "label": "Connection",
+            "required": true
+          },
+          {
+            "name": "select",
+            "type": "select",
+            "label": "Watch Files",
+            "required": true,
+            "validate": {
+              "enum": [
+                "create",
+                "modify"
+              ]
+            }
+          },
+          {
+            "name": "destination",
+            "type": "select",
+            "label": "Choose a Drive",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share",
+                "team"
+              ]
+            }
+          },
+          {
+            "name": "mimeType",
+            "type": "select",
+            "label": "File Types to Watch",
+            "required": true,
+            "validate": {
+              "enum": [
+                "all",
+                "document",
+                "spreadsheet",
+                "slide",
+                "drawing"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "type": "uinteger",
+            "label": "Limit",
+            "required": true
+          },
+          {
+            "name": "folderId",
+            "type": "folder",
+            "label": "Select the Folder to be Watched",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "module": "google-drive:getAFile",
+      "version": 4,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "mapper": {
+        "file": "{{2.id}}",
+        "select": "map",
+        "formatDrawings": "image/jpeg",
+        "formatDocuments": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "formatSpreadsheets": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "formatPresentations": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "select": {
+              "label": "Enter manually"
+            },
+            "formatDrawings": {
+              "label": "JPEG"
+            },
+            "formatDocuments": {
+              "label": "MS Word Document"
+            },
+            "formatSpreadsheets": {
+              "label": "MS Excel"
+            },
+            "formatPresentations": {
+              "label": "MS PowerPoint"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GOOGLE_DRIVE_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-restricted,google-drive",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "select",
+            "type": "select",
+            "label": "Enter a File ID",
+            "required": true,
+            "validate": {
+              "enum": [
+                "map",
+                "value"
+              ]
+            }
+          },
+          {
+            "name": "formatDocuments",
+            "type": "select",
+            "label": "Convert Google Documents Files to Format",
+            "required": true,
+            "validate": {
+              "enum": [
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                "application/pdf",
+                "application/vnd.oasis.opendocument.text",
+                "text/html",
+                "text/plain",
+                "application/rtf",
+                "text/markdown"
+              ]
+            }
+          },
+          {
+            "name": "formatSpreadsheets",
+            "type": "select",
+            "label": "Convert Google Spreadsheets Files to Format",
+            "required": true,
+            "validate": {
+              "enum": [
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "application/x-vnd.oasis.opendocument.spreadsheet",
+                "application/pdf",
+                "text/csv"
+              ]
+            }
+          },
+          {
+            "name": "formatPresentations",
+            "type": "select",
+            "label": "Convert Google Slides Files to Format",
+            "required": true,
+            "validate": {
+              "enum": [
+                "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                "application/pdf"
+              ]
+            }
+          },
+          {
+            "name": "formatDrawings",
+            "type": "select",
+            "label": "Convert Google Drawings Files to Format",
+            "required": true,
+            "validate": {
+              "enum": [
+                "image/jpeg",
+                "image/png",
+                "image/svg+xml",
+                "application/pdf"
+              ]
+            }
+          },
+          {
+            "name": "file",
+            "type": "text",
+            "label": "File ID",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "module": "gemini-ai:uploadAFile",
+      "version": 1,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "mapper": {
+        "file_data": "{{3.data}}",
+        "file_name": "{{3.name}}",
+        "useFileSearchStore": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "useFileSearchStore": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GEMINI_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:gemini-ai-q9zyjp",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "file_name",
+            "type": "text",
+            "label": "Name",
+            "required": true
+          },
+          {
+            "name": "file_data",
+            "type": "buffer",
+            "label": "Data",
+            "required": true
+          },
+          {
+            "name": "useFileSearchStore",
+            "type": "boolean",
+            "label": "Use File Search Store"
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "module": "gemini-ai:createACompletionGeminiPro",
+      "version": 1,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "mapper": {
+        "model": "gemini-3.1-flash-lite",
+        "contents": [
+          {
+            "role": "user",
+            "parts": [
+              {
+                "type": "file",
+                "file_data": {
+                  "file_uri": "{{4.uri}}",
+                  "mime_type": "{{4.mimeType}}"
+                }
+              },
+              {
+                "text": "Wykonaj pełną i możliwie wierną transkrypcję przesłanego nagrania audio.\n\nZasady:\n1. Transkrybuj w języku faktycznie używanym w nagraniu.\n2. Nie tłumacz wypowiedzi na inny język.\n3. Zapisz całą rozmowę od początku do końca.\n4. Nie twórz streszczenia i nie pomijaj fragmentów.\n5. Nie poprawiaj sensu wypowiedzi i nie dopisuj informacji, których nie ma w nagraniu.\n6. Zachowaj liczby, kwoty, daty, nazwy firm, nazwiska oraz terminy techniczne.\n7. Gdy fragment jest niezrozumiały, wpisz: [niezrozumiałe].\n8. Jeżeli można rozróżnić osoby, oznaczaj je kolejno:\nRozmówca 1:\nRozmówca 2:\nRozmówca 3:\n9. Zachowuj zmianę rozmówcy w kolejnych akapitach.\n10. Nie dodawaj komentarza, wprowadzenia, streszczenia ani analizy.\n11. Zwróć wyłącznie gotową transkrypcję jako zwykły tekst.",
+                "type": "text"
+              }
+            ]
+          }
+        ],
+        "generationConfig": {
+          "imageConfig": {},
+          "thinkingConfig": {},
+          "responseModalities": [
+            "text"
+          ]
+        },
+        "system_instruction": {}
+      },
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "model": {
+              "mode": "chose",
+              "label": "Gemini 3.1 Flash LiteDiscontinuation date: May 7, 2027"
+            },
+            "contents": {
+              "mode": "chose",
+              "items": [
+                {
+                  "role": {
+                    "mode": "chose",
+                    "label": "User"
+                  },
+                  "parts": {
+                    "mode": "chose",
+                    "items": [
+                      {
+                        "type": {
+                          "mode": "chose",
+                          "label": "File"
+                        }
+                      },
+                      {
+                        "type": {
+                          "mode": "chose",
+                          "label": "Text"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "serviceTier": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "url_context": {
+              "mode": "chose"
+            },
+            "code_execution": {
+              "mode": "chose"
+            },
+            "safetySettings": {
+              "mode": "chose"
+            },
+            "generationConfig": {
+              "nested": {
+                "imageConfig": {
+                  "nested": {
+                    "imageSize": {
+                      "mode": "chose",
+                      "label": "Empty"
+                    }
+                  }
+                },
+                "stopSequences": {
+                  "mode": "chose"
+                },
+                "thinkingConfig": {
+                  "nested": {
+                    "thinking_level": {
+                      "mode": "chose",
+                      "label": "Empty"
+                    },
+                    "include_thoughts": {
+                      "mode": "chose"
+                    }
+                  }
+                },
+                "mediaResolution": {
+                  "mode": "chose",
+                  "label": "Empty"
+                },
+                "responseMimeType": {
+                  "mode": "chose",
+                  "label": "Empty"
+                },
+                "responseModalities": {
+                  "mode": "chose"
+                }
+              }
+            },
+            "system_instruction": {
+              "nested": {
+                "parts": {
+                  "mode": "chose"
+                }
+              }
+            },
+            "google_maps_context": {
+              "mode": "chose"
+            },
+            "google_search_context": {
+              "mode": "chose"
+            },
+            "file_search_store_context": {
+              "mode": "chose"
+            },
+            "function_declarations_context": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GEMINI_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:gemini-ai-q9zyjp",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "model",
+            "type": "select",
+            "label": "AI Model",
+            "required": true
+          },
+          {
+            "name": "contents",
+            "spec": [
+              {
+                "name": "role",
+                "type": "select",
+                "label": "Role",
+                "options": [
+                  {
+                    "label": "User",
+                    "value": "user"
+                  },
+                  {
+                    "label": "Model",
+                    "value": "model"
+                  }
+                ],
+                "required": true
+              },
+              {
+                "name": "parts",
+                "spec": [
+                  {
+                    "name": "type",
+                    "type": "select",
+                    "label": "Message Type",
+                    "options": [
+                      {
+                        "label": "Text",
+                        "value": "text",
+                        "nested": [
+                          {
+                            "name": "text",
+                            "type": "text",
+                            "label": "Text",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "label": "File",
+                        "value": "file",
+                        "nested": [
+                          {
+                            "name": "file_data",
+                            "spec": [
+                              {
+                                "name": "mime_type",
+                                "type": "text",
+                                "label": "Mime Type",
+                                "required": true
+                              },
+                              {
+                                "help": "You can use public or signed URLs as input by using the URLs.",
+                                "name": "file_uri",
+                                "type": "text",
+                                "label": "File URI",
+                                "required": true
+                              }
+                            ],
+                            "type": "collection",
+                            "label": "File Data",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Function Call",
+                        "value": "functionCall",
+                        "nested": [
+                          {
+                            "name": "functionCall",
+                            "spec": [
+                              {
+                                "help": "The name of the function to call.",
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name",
+                                "required": true,
+                                "validate": {
+                                  "max": 64
+                                }
+                              },
+                              {
+                                "help": "The function parameters and values in JSON object format.",
+                                "name": "args",
+                                "type": "json",
+                                "label": "Arguments"
+                              },
+                              {
+                                "help": "The unique ID of the function call.",
+                                "name": "id",
+                                "type": "text",
+                                "label": "Function Call ID"
+                              }
+                            ],
+                            "type": "collection",
+                            "label": "Function Call"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Function Response",
+                        "value": "functionResponse",
+                        "nested": [
+                          {
+                            "name": "functionResponse",
+                            "spec": [
+                              {
+                                "help": "The name of the function to call.",
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name",
+                                "required": true,
+                                "validate": {
+                                  "max": 64
+                                }
+                              },
+                              {
+                                "help": "The function response in JSON object format.",
+                                "name": "response",
+                                "type": "json",
+                                "label": "Response",
+                                "required": true
+                              }
+                            ],
+                            "type": "collection",
+                            "label": "Function Response"
+                          }
+                        ]
+                      }
+                    ],
+                    "required": true
+                  },
+                  {
+                    "name": "thoughtSignature",
+                    "type": "text",
+                    "label": "Thought Signature"
+                  }
+                ],
+                "type": "array",
+                "label": "Parts",
+                "required": true
+              }
+            ],
+            "type": "array",
+            "label": "Messages",
+            "required": true
+          },
+          {
+            "name": "system_instruction",
+            "spec": [
+              {
+                "name": "parts",
+                "spec": {
+                  "name": "value",
+                  "spec": [
+                    {
+                      "name": "text",
+                      "type": "text",
+                      "label": "Value"
+                    }
+                  ],
+                  "type": "collection",
+                  "label": "Prompt"
+                },
+                "type": "array",
+                "label": "Prompts"
+              }
+            ],
+            "type": "collection",
+            "label": "System Instructions"
+          },
+          {
+            "name": "safetySettings",
+            "spec": [
+              {
+                "name": "category",
+                "type": "select",
+                "label": "Category",
+                "options": [
+                  {
+                    "label": "Harassment content",
+                    "value": "HARM_CATEGORY_HARASSMENT"
+                  },
+                  {
+                    "label": "Hate speech and content",
+                    "value": "HARM_CATEGORY_HATE_SPEECH"
+                  },
+                  {
+                    "label": "Sexually explicit content.",
+                    "value": "HARM_CATEGORY_SEXUALLY_EXPLICIT"
+                  },
+                  {
+                    "label": "Dangerous content:",
+                    "value": "HARM_CATEGORY_DANGEROUS_CONTENT"
+                  }
+                ]
+              },
+              {
+                "name": "threshold",
+                "type": "select",
+                "label": "Threshold",
+                "options": [
+                  {
+                    "label": "Block low and above.",
+                    "value": "BLOCK_LOW_AND_ABOVE"
+                  },
+                  {
+                    "label": "Block medium and above.",
+                    "value": "BLOCK_MEDIUM_AND_ABOVE"
+                  },
+                  {
+                    "label": "Block only high.",
+                    "value": "BLOCK_ONLY_HIGH"
+                  },
+                  {
+                    "label": "Block none.",
+                    "value": "BLOCK_NONE"
+                  }
+                ]
+              }
+            ],
+            "type": "array",
+            "label": "Safety Settings"
+          },
+          {
+            "name": "generationConfig",
+            "spec": [
+              {
+                "name": "stopSequences",
+                "spec": {
+                  "name": "value",
+                  "type": "text",
+                  "label": "Stop Sequence"
+                },
+                "type": "array",
+                "label": "Stop Sequences"
+              },
+              {
+                "name": "responseModalities",
+                "type": "select",
+                "label": "Response Modalities",
+                "multiple": true,
+                "validate": {
+                  "enum": [
+                    "text",
+                    "image"
+                  ]
+                }
+              },
+              {
+                "name": "maxOutputTokens",
+                "type": "number",
+                "label": "Max Output Tokens"
+              },
+              {
+                "name": "temperature",
+                "type": "number",
+                "label": "Temperature",
+                "validate": {
+                  "max": 1,
+                  "min": 0
+                }
+              },
+              {
+                "name": "topP",
+                "type": "number",
+                "label": "Top P",
+                "validate": {
+                  "max": 1,
+                  "min": 0
+                }
+              },
+              {
+                "name": "topK",
+                "type": "number",
+                "label": "Top K"
+              },
+              {
+                "name": "thinkingConfig",
+                "spec": [
+                  {
+                    "name": "thinkingBudget",
+                    "type": "number",
+                    "label": "Thinking Budget"
+                  },
+                  {
+                    "name": "include_thoughts",
+                    "type": "boolean",
+                    "label": "Include Thoughts"
+                  },
+                  {
+                    "name": "thinking_level",
+                    "type": "select",
+                    "label": "Thinking Level",
+                    "validate": {
+                      "enum": [
+                        "low",
+                        "high"
+                      ]
+                    }
+                  }
+                ],
+                "type": "collection",
+                "label": "Thinking Config"
+              },
+              {
+                "name": "mediaResolution",
+                "type": "select",
+                "label": "Media Resolution",
+                "validate": {
+                  "enum": [
+                    "media_resolution_low",
+                    "media_resolution_medium",
+                    "media_resolution_high"
+                  ]
+                }
+              },
+              {
+                "name": "imageConfig",
+                "spec": [
+                  {
+                    "name": "imageSize",
+                    "type": "select",
+                    "label": "Image Size",
+                    "validate": {
+                      "enum": [
+                        "1K",
+                        "2K",
+                        "4K"
+                      ]
+                    }
+                  }
+                ],
+                "type": "collection",
+                "label": "Image Configuration"
+              },
+              {
+                "name": "responseMimeType",
+                "type": "select",
+                "label": "Response Format"
+              }
+            ],
+            "type": "collection",
+            "label": "Generation configurations"
+          },
+          {
+            "name": "tools",
+            "type": "any",
+            "label": "Tools"
+          },
+          {
+            "name": "tool_config",
+            "type": "any",
+            "label": "Tool Config"
+          },
+          {
+            "name": "function_declarations_context",
+            "type": "boolean",
+            "label": "Function Declarations Grounding"
+          },
+          {
+            "name": "url_context",
+            "type": "boolean",
+            "label": "URL Context"
+          },
+          {
+            "name": "google_search_context",
+            "type": "boolean",
+            "label": "Google Search Grounding"
+          },
+          {
+            "name": "code_execution",
+            "type": "boolean",
+            "label": "Code Execution"
+          },
+          {
+            "name": "google_maps_context",
+            "type": "boolean",
+            "label": "Google Maps Grounding"
+          },
+          {
+            "name": "file_search_store_context",
+            "type": "boolean",
+            "label": "File Search Store Context"
+          },
+          {
+            "name": "serviceTier",
+            "type": "select",
+            "label": "Inference Service Tier"
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "module": "gemini-ai:createACompletionGeminiPro",
+      "version": 1,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "filter": null,
+      "mapper": {
+        "model": "gemini-3.1-flash-lite",
+        "contents": [
+          {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Jesteś analitykiem biznesowym i doradcą ds. usprawniania małych i średnich firm.\n\nPrzeanalizuj poniższą transkrypcję rozmowy z klientem.\n\nTwoim zadaniem jest przygotowanie:\n\n1. analizy wewnętrznej dla konsultanta,\n2. trzech propozycji usprawnień dla klienta,\n3. gotowej treści e-maila do właściciela lub kierownika firmy,\n4. orientacyjnych kalkulacji korzyści.\n\nNAJWAŻNIEJSZE ZASADY:\n\n- Nie wymyślaj faktów, osób, stanowisk, liczb, kwot ani terminów.\n- Używaj imion pracowników tylko wtedy, gdy rzeczywiście występują w transkrypcji.\n- Oddzielaj fakty z rozmowy od własnych rekomendacji.\n- Jeżeli brakuje danych, wpisz: „Do ustalenia”.\n- Nie obiecuj konkretnego wzrostu sprzedaży.\n- Kwoty i oszczędności obliczaj tylko wtedy, gdy w rozmowie podano odpowiednie dane.\n- Jeżeli przedstawiasz przykład orientacyjny, wyraźnie oznacz go jako założenie wymagające potwierdzenia.\n- Treść e-maila ma być napisana prostym, naturalnym językiem.\n- Nie używaj technicznego żargonu, takiego jak webhook, API, integracja systemowa, automatyzacja procesowa lub CRM, chyba że klient sam używa takich określeń.\n- Wyjaśniaj rozwiązania przez realne sytuacje w firmie.\n- Pokazuj właścicielowi przede wszystkim oszczędność czasu, kosztów, zmniejszenie obciążenia pracowników, poprawę obsługi klientów i możliwość pozyskania nowych zapytań.\n- E-mail nie może brzmieć jak tekst wygenerowany przez sztuczną inteligencję.\n- E-mail ma być krótki, konkretny i możliwy do wysłania po sprawdzeniu przez konsultanta.\n- Nie używaj przesadnych określeń ani pustych obietnic.\n\nPRZYKŁAD SPOSOBU WYJAŚNIANIA:\n\nZamiast:\n„Wdrożenie automatyzacji obsługi wiadomości usprawni proces komunikacyjny.”\n\nNapisz:\n„Wspominał Pan, że pani Anna codziennie odpowiada na podobne pytania klientów. Część takich odpowiedzi może być przygotowywana automatycznie. Dzięki temu pani Anna nie będzie traciła czasu na powtarzalne wiadomości i będzie mogła zająć się sprawami wymagającymi jej wiedzy.”\n\nJeżeli w rozmowie nie podano imienia ani czasu wykonywania czynności, nie wymyślaj tych danych.\n\nWYBIERZ TRZY PROPOZYCJE:\n\n1. SZYBKI SUKCES\nRozwiązanie proste, stosunkowo niedrogie, szybkie do wdrożenia i dające widoczny efekt.\n\n2. NAJWIĘKSZA OSZCZĘDNOŚĆ CZASU\nRozwiązanie ograniczające powtarzalną pracę pracowników.\n\n3. NAJWIĘKSZY POTENCJAŁ WZROSTU\nRozwiązanie, które może zwiększyć liczbę zapytań, poprawić obsługę klienta albo ułatwić sprzedaż.\n\nTREŚĆ E-MAILA POWINNA ZAWIERAĆ:\n\n- krótkie podziękowanie za rozmowę,\n- krótkie podsumowanie zauważonej sytuacji,\n- trzy propozycje usprawnień,\n- przy każdej propozycji:\n  - co obecnie się dzieje,\n  - co można zmienić,\n  - co firma na tym zyska,\n  - możliwy efekt czasu lub pieniędzy,\n- rekomendację, od czego najlepiej zacząć,\n- krótkie uzasadnienie,\n- pytanie, który obszar jest dla klienta najważniejszy.\n\nZWRÓĆ ODPOWIEDŹ WYŁĄCZNIE JAKO POPRAWNY JSON.\n\nNie dodawaj przed JSON-em żadnego komentarza.\nNie dodawaj po JSON-ie żadnego komentarza.\nNie używaj bloków kodu Markdown.\n\nZastosuj dokładnie poniższą strukturę:\n\n{\n  \"analiza_wewnetrzna\": {\n    \"podsumowanie_rozmowy\": \"\",\n    \"fakty_z_rozmowy\": \"\",\n    \"problemy_klienta\": \"\",\n    \"powtarzalne_czynnosci\": \"\",\n    \"straty_czasu_i_kosztow\": \"\",\n    \"potrzeby_klienta\": \"\",\n    \"mozliwe_rozwiazania\": \"\",\n    \"szybki_sukces\": \"\",\n    \"mozliwe_dalsze_zlecenia\": \"\",\n    \"ustalenia_i_decyzje\": \"\",\n    \"pytania_otwarte\": \"\",\n    \"dane_do_uzupelnienia\": \"\",\n    \"nastepny_krok\": \"\",\n    \"potencjal_klienta\": \"\",\n    \"uzasadnienie_potencjalu\": \"\"\n  },\n  \"propozycja_dla_klienta\": {\n    \"temat_emaila\": \"\",\n    \"tresc_emaila\": \"\",\n    \"rekomendowana_propozycja\": \"\",\n    \"dlaczego_warto_od_niej_zaczac\": \"\",\n    \"pytania_do_klienta\": \"\"\n  },\n  \"kalkulacje_korzysci\": [\n    {\n      \"obszar_usprawnienia\": \"\",\n      \"obecna_czynnosc\": \"\",\n      \"osoba_wykonujaca\": \"\",\n      \"czas_jednej_czynnosci\": \"\",\n      \"czestotliwosc\": \"\",\n      \"szacowany_czas_miesieczny\": \"\",\n      \"koszt_godziny_pracy\": \"\",\n      \"mozliwa_oszczednosc_miesieczna\": \"\",\n      \"mozliwa_oszczednosc_roczna\": \"\",\n      \"mozliwy_dodatkowy_przychod\": \"\",\n      \"koszt_wdrozenia\": \"\",\n      \"szacowany_czas_zwrotu\": \"\",\n      \"zrodlo_danych\": \"\",\n      \"status_danych\": \"\",\n      \"zalozenia_i_uwagi\": \"\"\n    }\n  ]\n}\n\nDo pola „potencjal_klienta” wpisz wyłącznie jedną z wartości:\n„Wysoki”, „Średni”, „Niski” albo „Nie można ocenić”.\n\nDo pola „status_danych” wpisz wyłącznie jedną z wartości:\n„Potwierdzone przez klienta”, „Założenie orientacyjne” albo „Do ustalenia”.\n\nTRANSKRYPCJA DO ANALIZY:\n{{5.candidates[].content.parts[].text}}",
+                "type": "text"
+              }
+            ]
+          }
+        ],
+        "generationConfig": {
+          "imageConfig": {},
+          "thinkingConfig": {}
+        },
+        "system_instruction": {}
+      },
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "model": {
+              "mode": "chose",
+              "label": "Gemini 3.1 Flash LiteDiscontinuation date: May 7, 2027"
+            },
+            "contents": {
+              "mode": "chose",
+              "items": [
+                {
+                  "role": {
+                    "mode": "chose",
+                    "label": "User"
+                  },
+                  "parts": {
+                    "mode": "chose",
+                    "items": [
+                      {
+                        "type": {
+                          "mode": "chose",
+                          "label": "Text"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "serviceTier": {
+              "mode": "chose",
+              "label": "Empty"
+            },
+            "url_context": {
+              "mode": "chose"
+            },
+            "code_execution": {
+              "mode": "chose"
+            },
+            "safetySettings": {
+              "mode": "chose"
+            },
+            "generationConfig": {
+              "nested": {
+                "imageConfig": {
+                  "nested": {
+                    "imageSize": {
+                      "mode": "chose",
+                      "label": "Empty"
+                    }
+                  }
+                },
+                "stopSequences": {
+                  "mode": "chose"
+                },
+                "thinkingConfig": {
+                  "nested": {
+                    "thinking_level": {
+                      "mode": "chose",
+                      "label": "Empty"
+                    },
+                    "include_thoughts": {
+                      "mode": "chose"
+                    }
+                  }
+                },
+                "mediaResolution": {
+                  "mode": "chose",
+                  "label": "Empty"
+                },
+                "responseMimeType": {
+                  "mode": "chose",
+                  "label": "Empty"
+                },
+                "responseModalities": {
+                  "mode": "chose"
+                }
+              }
+            },
+            "system_instruction": {
+              "nested": {
+                "parts": {
+                  "mode": "chose"
+                }
+              }
+            },
+            "google_maps_context": {
+              "mode": "chose"
+            },
+            "google_search_context": {
+              "mode": "chose"
+            },
+            "file_search_store_context": {
+              "mode": "chose"
+            },
+            "function_declarations_context": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GEMINI_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:gemini-ai-q9zyjp",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "model",
+            "type": "select",
+            "label": "AI Model",
+            "required": true
+          },
+          {
+            "name": "contents",
+            "spec": [
+              {
+                "name": "role",
+                "type": "select",
+                "label": "Role",
+                "options": [
+                  {
+                    "label": "User",
+                    "value": "user"
+                  },
+                  {
+                    "label": "Model",
+                    "value": "model"
+                  }
+                ],
+                "required": true
+              },
+              {
+                "name": "parts",
+                "spec": [
+                  {
+                    "name": "type",
+                    "type": "select",
+                    "label": "Message Type",
+                    "options": [
+                      {
+                        "label": "Text",
+                        "value": "text",
+                        "nested": [
+                          {
+                            "name": "text",
+                            "type": "text",
+                            "label": "Text",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "label": "File",
+                        "value": "file",
+                        "nested": [
+                          {
+                            "name": "file_data",
+                            "spec": [
+                              {
+                                "name": "mime_type",
+                                "type": "text",
+                                "label": "Mime Type",
+                                "required": true
+                              },
+                              {
+                                "help": "You can use public or signed URLs as input by using the URLs.",
+                                "name": "file_uri",
+                                "type": "text",
+                                "label": "File URI",
+                                "required": true
+                              }
+                            ],
+                            "type": "collection",
+                            "label": "File Data",
+                            "required": true
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Function Call",
+                        "value": "functionCall",
+                        "nested": [
+                          {
+                            "name": "functionCall",
+                            "spec": [
+                              {
+                                "help": "The name of the function to call.",
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name",
+                                "required": true,
+                                "validate": {
+                                  "max": 64
+                                }
+                              },
+                              {
+                                "help": "The function parameters and values in JSON object format.",
+                                "name": "args",
+                                "type": "json",
+                                "label": "Arguments"
+                              },
+                              {
+                                "help": "The unique ID of the function call.",
+                                "name": "id",
+                                "type": "text",
+                                "label": "Function Call ID"
+                              }
+                            ],
+                            "type": "collection",
+                            "label": "Function Call"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Function Response",
+                        "value": "functionResponse",
+                        "nested": [
+                          {
+                            "name": "functionResponse",
+                            "spec": [
+                              {
+                                "help": "The name of the function to call.",
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name",
+                                "required": true,
+                                "validate": {
+                                  "max": 64
+                                }
+                              },
+                              {
+                                "help": "The function response in JSON object format.",
+                                "name": "response",
+                                "type": "json",
+                                "label": "Response",
+                                "required": true
+                              }
+                            ],
+                            "type": "collection",
+                            "label": "Function Response"
+                          }
+                        ]
+                      }
+                    ],
+                    "required": true
+                  },
+                  {
+                    "name": "thoughtSignature",
+                    "type": "text",
+                    "label": "Thought Signature"
+                  }
+                ],
+                "type": "array",
+                "label": "Parts",
+                "required": true
+              }
+            ],
+            "type": "array",
+            "label": "Messages",
+            "required": true
+          },
+          {
+            "name": "system_instruction",
+            "spec": [
+              {
+                "name": "parts",
+                "spec": {
+                  "name": "value",
+                  "spec": [
+                    {
+                      "name": "text",
+                      "type": "text",
+                      "label": "Value"
+                    }
+                  ],
+                  "type": "collection",
+                  "label": "Prompt"
+                },
+                "type": "array",
+                "label": "Prompts"
+              }
+            ],
+            "type": "collection",
+            "label": "System Instructions"
+          },
+          {
+            "name": "safetySettings",
+            "spec": [
+              {
+                "name": "category",
+                "type": "select",
+                "label": "Category",
+                "options": [
+                  {
+                    "label": "Harassment content",
+                    "value": "HARM_CATEGORY_HARASSMENT"
+                  },
+                  {
+                    "label": "Hate speech and content",
+                    "value": "HARM_CATEGORY_HATE_SPEECH"
+                  },
+                  {
+                    "label": "Sexually explicit content.",
+                    "value": "HARM_CATEGORY_SEXUALLY_EXPLICIT"
+                  },
+                  {
+                    "label": "Dangerous content:",
+                    "value": "HARM_CATEGORY_DANGEROUS_CONTENT"
+                  }
+                ]
+              },
+              {
+                "name": "threshold",
+                "type": "select",
+                "label": "Threshold",
+                "options": [
+                  {
+                    "label": "Block low and above.",
+                    "value": "BLOCK_LOW_AND_ABOVE"
+                  },
+                  {
+                    "label": "Block medium and above.",
+                    "value": "BLOCK_MEDIUM_AND_ABOVE"
+                  },
+                  {
+                    "label": "Block only high.",
+                    "value": "BLOCK_ONLY_HIGH"
+                  },
+                  {
+                    "label": "Block none.",
+                    "value": "BLOCK_NONE"
+                  }
+                ]
+              }
+            ],
+            "type": "array",
+            "label": "Safety Settings"
+          },
+          {
+            "name": "generationConfig",
+            "spec": [
+              {
+                "name": "stopSequences",
+                "spec": {
+                  "name": "value",
+                  "type": "text",
+                  "label": "Stop Sequence"
+                },
+                "type": "array",
+                "label": "Stop Sequences"
+              },
+              {
+                "name": "responseModalities",
+                "type": "select",
+                "label": "Response Modalities",
+                "multiple": true,
+                "validate": {
+                  "enum": [
+                    "text",
+                    "image"
+                  ]
+                }
+              },
+              {
+                "name": "maxOutputTokens",
+                "type": "number",
+                "label": "Max Output Tokens"
+              },
+              {
+                "name": "temperature",
+                "type": "number",
+                "label": "Temperature",
+                "validate": {
+                  "max": 1,
+                  "min": 0
+                }
+              },
+              {
+                "name": "topP",
+                "type": "number",
+                "label": "Top P",
+                "validate": {
+                  "max": 1,
+                  "min": 0
+                }
+              },
+              {
+                "name": "topK",
+                "type": "number",
+                "label": "Top K"
+              },
+              {
+                "name": "thinkingConfig",
+                "spec": [
+                  {
+                    "name": "thinkingBudget",
+                    "type": "number",
+                    "label": "Thinking Budget"
+                  },
+                  {
+                    "name": "include_thoughts",
+                    "type": "boolean",
+                    "label": "Include Thoughts"
+                  },
+                  {
+                    "name": "thinking_level",
+                    "type": "select",
+                    "label": "Thinking Level",
+                    "validate": {
+                      "enum": [
+                        "low",
+                        "high"
+                      ]
+                    }
+                  }
+                ],
+                "type": "collection",
+                "label": "Thinking Config"
+              },
+              {
+                "name": "mediaResolution",
+                "type": "select",
+                "label": "Media Resolution",
+                "validate": {
+                  "enum": [
+                    "media_resolution_low",
+                    "media_resolution_medium",
+                    "media_resolution_high"
+                  ]
+                }
+              },
+              {
+                "name": "imageConfig",
+                "spec": [
+                  {
+                    "name": "imageSize",
+                    "type": "select",
+                    "label": "Image Size",
+                    "validate": {
+                      "enum": [
+                        "1K",
+                        "2K",
+                        "4K"
+                      ]
+                    }
+                  }
+                ],
+                "type": "collection",
+                "label": "Image Configuration"
+              },
+              {
+                "name": "responseMimeType",
+                "type": "select",
+                "label": "Response Format"
+              }
+            ],
+            "type": "collection",
+            "label": "Generation configurations"
+          },
+          {
+            "name": "tools",
+            "type": "any",
+            "label": "Tools"
+          },
+          {
+            "name": "tool_config",
+            "type": "any",
+            "label": "Tool Config"
+          },
+          {
+            "name": "function_declarations_context",
+            "type": "boolean",
+            "label": "Function Declarations Grounding"
+          },
+          {
+            "name": "url_context",
+            "type": "boolean",
+            "label": "URL Context"
+          },
+          {
+            "name": "google_search_context",
+            "type": "boolean",
+            "label": "Google Search Grounding"
+          },
+          {
+            "name": "code_execution",
+            "type": "boolean",
+            "label": "Code Execution"
+          },
+          {
+            "name": "google_maps_context",
+            "type": "boolean",
+            "label": "Google Maps Grounding"
+          },
+          {
+            "name": "file_search_store_context",
+            "type": "boolean",
+            "label": "File Search Store Context"
+          },
+          {
+            "name": "serviceTier",
+            "type": "select",
+            "label": "Inference Service Tier"
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "module": "json:ParseJSON",
+      "version": 1,
+      "parameters": {},
+      "filter": null,
+      "mapper": {
+        "json": "{{9.candidates[].content.parts[].text}}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 1500,
+          "y": 0
+        },
+        "restore": {},
+        "parameters": [
+          {
+            "name": "type",
+            "type": "udt",
+            "label": "Data structure"
+          }
+        ],
+        "expect": [
+          {
+            "name": "json",
+            "type": "text",
+            "label": "JSON string",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "filter": null,
+      "mapper": {
+        "from": "drive",
+        "mode": "select",
+        "values": {
+          "0": "{{2.id}}",
+          "1": "{{formatDate(now; \"YYYY-MM-DD HH:mm:ss\"; \"Europe/Warsaw\")}}",
+          "2": "{{2.name}}",
+          "3": "{{10.analiza_wewnetrzna.podsumowanie_rozmowy}}",
+          "4": "{{10.analiza_wewnetrzna.fakty_z_rozmowy}}",
+          "5": "{{10.analiza_wewnetrzna.problemy_klienta}}",
+          "6": "{{10.analiza_wewnetrzna.powtarzalne_czynnosci}}",
+          "7": "{{10.analiza_wewnetrzna.straty_czasu_i_kosztow}}",
+          "8": "{{10.analiza_wewnetrzna.potrzeby_klienta}}",
+          "9": "{{10.analiza_wewnetrzna.mozliwe_rozwiazania}}",
+          "10": "{{10.analiza_wewnetrzna.szybki_sukces}}",
+          "11": "{{10.analiza_wewnetrzna.mozliwe_dalsze_zlecenia}}",
+          "12": "{{10.analiza_wewnetrzna.ustalenia_i_decyzje}}",
+          "13": "{{10.analiza_wewnetrzna.pytania_otwarte}}",
+          "14": "{{10.analiza_wewnetrzna.dane_do_uzupelnienia}}",
+          "15": "{{10.analiza_wewnetrzna.nastepny_krok}}",
+          "16": "{{10.analiza_wewnetrzna.potencjal_klienta}}",
+          "17": "{{10.analiza_wewnetrzna.uzasadnienie_potencjalu}}",
+          "18": "Wersja robocza"
+        },
+        "sheetId": "Analiza wewnętrzna",
+        "spreadsheetId": "/YOUR_GOOGLE_DRIVE_ID/YOUR_GOOGLE_SHEET_ID",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "useColumnHeaders": false,
+        "valueInputOption": "USER_ENTERED",
+        "insertUnformatted": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 1800,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "from": {
+              "label": "My Drive"
+            },
+            "mode": {
+              "label": "Search by path"
+            },
+            "sheetId": {
+              "label": "Analiza wewnętrzna"
+            },
+            "spreadsheetId": {
+              "path": [
+                "YOUR_GOOGLE_DRIVE_ID",
+                "Baza_spotkan_klientow"
+              ]
+            },
+            "includesHeaders": {
+              "label": "Yes"
+            },
+            "insertDataOption": {
+              "mode": "chose",
+              "label": "Insert rows"
+            },
+            "useColumnHeaders": {
+              "label": "No"
+            },
+            "valueInputOption": {
+              "mode": "chose",
+              "label": "User entered"
+            },
+            "insertUnformatted": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GOOGLE_SHEETS_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "mode",
+            "type": "select",
+            "label": "Search Method",
+            "required": true,
+            "validate": {
+              "enum": [
+                "select",
+                "fromAll",
+                "map"
+              ]
+            }
+          },
+          {
+            "name": "insertUnformatted",
+            "type": "boolean",
+            "label": "Unformatted",
+            "required": true
+          },
+          {
+            "name": "valueInputOption",
+            "type": "select",
+            "label": "Value input option",
+            "required": true,
+            "validate": {
+              "enum": [
+                "USER_ENTERED",
+                "RAW"
+              ]
+            }
+          },
+          {
+            "name": "insertDataOption",
+            "type": "select",
+            "label": "Insert data option",
+            "validate": {
+              "enum": [
+                "INSERT_ROWS",
+                "OVERWRITE"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "type": "select",
+            "label": "Drive",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share",
+                "team"
+              ]
+            }
+          },
+          {
+            "name": "spreadsheetId",
+            "type": "file",
+            "label": "Spreadsheet Name",
+            "required": true
+          },
+          {
+            "name": "sheetId",
+            "type": "select",
+            "label": "Sheet Name",
+            "required": true
+          },
+          {
+            "name": "includesHeaders",
+            "type": "select",
+            "label": "Table contains headers",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "useColumnHeaders",
+            "type": "select",
+            "label": "Use column headers as IDs of the columns",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "values",
+            "spec": [
+              {
+                "name": "0",
+                "type": "text",
+                "label": "ID spotkania (A)"
+              },
+              {
+                "name": "1",
+                "type": "text",
+                "label": "Data analizy (B)"
+              },
+              {
+                "name": "2",
+                "type": "text",
+                "label": "Klient (C)"
+              },
+              {
+                "name": "3",
+                "type": "text",
+                "label": "Podsumowanie rozmowy (D)"
+              },
+              {
+                "name": "4",
+                "type": "text",
+                "label": "Fakty z rozmowy (E)"
+              },
+              {
+                "name": "5",
+                "type": "text",
+                "label": "Problemy klienta (F)"
+              },
+              {
+                "name": "6",
+                "type": "text",
+                "label": "Powtarzalne czynności (G)"
+              },
+              {
+                "name": "7",
+                "type": "text",
+                "label": "Straty czasu i kosztów (H)"
+              },
+              {
+                "name": "8",
+                "type": "text",
+                "label": "Potrzeby klienta (I)"
+              },
+              {
+                "name": "9",
+                "type": "text",
+                "label": "Możliwe rozwiązania (J)"
+              },
+              {
+                "name": "10",
+                "type": "text",
+                "label": "Szybki sukces (K)"
+              },
+              {
+                "name": "11",
+                "type": "text",
+                "label": "Możliwe dalsze zlecenia (L)"
+              },
+              {
+                "name": "12",
+                "type": "text",
+                "label": "Ustalenia i decyzje (M)"
+              },
+              {
+                "name": "13",
+                "type": "text",
+                "label": "Pytania otwarte (N)"
+              },
+              {
+                "name": "14",
+                "type": "text",
+                "label": "Dane do uzupełnienia (O)"
+              },
+              {
+                "name": "15",
+                "type": "text",
+                "label": "Następny krok (P)"
+              },
+              {
+                "name": "16",
+                "type": "text",
+                "label": "Potencjał klienta (Q)"
+              },
+              {
+                "name": "17",
+                "type": "text",
+                "label": "Uzasadnienie potencjału (R)"
+              },
+              {
+                "name": "18",
+                "type": "text",
+                "label": "Status analizy (S)"
+              },
+              {
+                "name": "19",
+                "type": "text",
+                "label": "(T)"
+              },
+              {
+                "name": "20",
+                "type": "text",
+                "label": "(U)"
+              },
+              {
+                "name": "21",
+                "type": "text",
+                "label": "(V)"
+              },
+              {
+                "name": "22",
+                "type": "text",
+                "label": "(W)"
+              },
+              {
+                "name": "23",
+                "type": "text",
+                "label": "(X)"
+              },
+              {
+                "name": "24",
+                "type": "text",
+                "label": "(Y)"
+              },
+              {
+                "name": "25",
+                "type": "text",
+                "label": "(Z)"
+              }
+            ],
+            "type": "collection",
+            "label": "Values in columns",
+            "metadata": [
+              [
+                [
+                  "ID spotkania",
+                  "Data analizy",
+                  "Klient",
+                  "Podsumowanie rozmowy",
+                  "Fakty z rozmowy",
+                  "Problemy klienta",
+                  "Powtarzalne czynności",
+                  "Straty czasu i kosztów",
+                  "Potrzeby klienta",
+                  "Możliwe rozwiązania",
+                  "Szybki sukces",
+                  "Możliwe dalsze zlecenia",
+                  "Ustalenia i decyzje",
+                  "Pytania otwarte",
+                  "Dane do uzupełnienia",
+                  "Następny krok",
+                  "Potencjał klienta",
+                  "Uzasadnienie potencjału",
+                  "Status analizy"
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "filter": null,
+      "mapper": {
+        "from": "drive",
+        "mode": "select",
+        "values": {
+          "0": "{{2.id}}",
+          "1": "{{formatDate(now; \"YYYY-MM-DD HH:mm:ss\"; \"Europe/Warsaw\")}}",
+          "2": "{{2.name}}",
+          "3": "{{10.propozycja_dla_klienta.temat_emaila}}",
+          "4": "{{10.propozycja_dla_klienta.tresc_emaila}}",
+          "5": "{{10.propozycja_dla_klienta.rekomendowana_propozycja}}",
+          "6": "{{10.propozycja_dla_klienta.dlaczego_warto_od_niej_zaczac}}",
+          "7": "{{10.propozycja_dla_klienta.pytania_do_klienta}}",
+          "8": "Wersja robocza"
+        },
+        "sheetId": "Propozycje klienta",
+        "spreadsheetId": "/YOUR_GOOGLE_DRIVE_ID/YOUR_GOOGLE_SHEET_ID",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "useColumnHeaders": false,
+        "valueInputOption": "USER_ENTERED",
+        "insertUnformatted": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 2100,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "from": {
+              "label": "My Drive"
+            },
+            "mode": {
+              "label": "Search by path"
+            },
+            "sheetId": {
+              "label": "Propozycje klienta"
+            },
+            "spreadsheetId": {
+              "path": [
+                "YOUR_GOOGLE_DRIVE_ID",
+                "Baza_spotkan_klientow"
+              ]
+            },
+            "includesHeaders": {
+              "label": "Yes"
+            },
+            "insertDataOption": {
+              "mode": "chose",
+              "label": "Insert rows"
+            },
+            "useColumnHeaders": {
+              "label": "No"
+            },
+            "valueInputOption": {
+              "mode": "chose",
+              "label": "User entered"
+            },
+            "insertUnformatted": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GOOGLE_SHEETS_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "mode",
+            "type": "select",
+            "label": "Search Method",
+            "required": true,
+            "validate": {
+              "enum": [
+                "select",
+                "fromAll",
+                "map"
+              ]
+            }
+          },
+          {
+            "name": "insertUnformatted",
+            "type": "boolean",
+            "label": "Unformatted",
+            "required": true
+          },
+          {
+            "name": "valueInputOption",
+            "type": "select",
+            "label": "Value input option",
+            "required": true,
+            "validate": {
+              "enum": [
+                "USER_ENTERED",
+                "RAW"
+              ]
+            }
+          },
+          {
+            "name": "insertDataOption",
+            "type": "select",
+            "label": "Insert data option",
+            "validate": {
+              "enum": [
+                "INSERT_ROWS",
+                "OVERWRITE"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "type": "select",
+            "label": "Drive",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share",
+                "team"
+              ]
+            }
+          },
+          {
+            "name": "spreadsheetId",
+            "type": "file",
+            "label": "Spreadsheet Name",
+            "required": true
+          },
+          {
+            "name": "sheetId",
+            "type": "select",
+            "label": "Sheet Name",
+            "required": true
+          },
+          {
+            "name": "includesHeaders",
+            "type": "select",
+            "label": "Table contains headers",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "useColumnHeaders",
+            "type": "select",
+            "label": "Use column headers as IDs of the columns",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "values",
+            "spec": [
+              {
+                "name": "0",
+                "type": "text",
+                "label": "ID spotkania (A)"
+              },
+              {
+                "name": "1",
+                "type": "text",
+                "label": "Data przygotowania (B)"
+              },
+              {
+                "name": "2",
+                "type": "text",
+                "label": "Klient (C)"
+              },
+              {
+                "name": "3",
+                "type": "text",
+                "label": "Temat e-maila (D)"
+              },
+              {
+                "name": "4",
+                "type": "text",
+                "label": "Treść e-maila (E)"
+              },
+              {
+                "name": "5",
+                "type": "text",
+                "label": "Rekomendowana propozycja (F)"
+              },
+              {
+                "name": "6",
+                "type": "text",
+                "label": "Dlaczego warto od niej zacząć (G)"
+              },
+              {
+                "name": "7",
+                "type": "text",
+                "label": "Pytania do klienta (H)"
+              },
+              {
+                "name": "8",
+                "type": "text",
+                "label": "Status e-maila (I)"
+              },
+              {
+                "name": "9",
+                "type": "text",
+                "label": "Data wysłania (J)"
+              },
+              {
+                "name": "10",
+                "type": "text",
+                "label": "Uwagi przed wysłaniem (K)"
+              },
+              {
+                "name": "11",
+                "type": "text",
+                "label": "(L)"
+              },
+              {
+                "name": "12",
+                "type": "text",
+                "label": "(M)"
+              },
+              {
+                "name": "13",
+                "type": "text",
+                "label": "(N)"
+              },
+              {
+                "name": "14",
+                "type": "text",
+                "label": "(O)"
+              },
+              {
+                "name": "15",
+                "type": "text",
+                "label": "(P)"
+              },
+              {
+                "name": "16",
+                "type": "text",
+                "label": "(Q)"
+              },
+              {
+                "name": "17",
+                "type": "text",
+                "label": "(R)"
+              },
+              {
+                "name": "18",
+                "type": "text",
+                "label": "(S)"
+              },
+              {
+                "name": "19",
+                "type": "text",
+                "label": "(T)"
+              },
+              {
+                "name": "20",
+                "type": "text",
+                "label": "(U)"
+              },
+              {
+                "name": "21",
+                "type": "text",
+                "label": "(V)"
+              },
+              {
+                "name": "22",
+                "type": "text",
+                "label": "(W)"
+              },
+              {
+                "name": "23",
+                "type": "text",
+                "label": "(X)"
+              },
+              {
+                "name": "24",
+                "type": "text",
+                "label": "(Y)"
+              },
+              {
+                "name": "25",
+                "type": "text",
+                "label": "(Z)"
+              }
+            ],
+            "type": "collection",
+            "label": "Values in columns",
+            "metadata": [
+              [
+                [
+                  "ID spotkania",
+                  "Data przygotowania",
+                  "Klient",
+                  "Temat e-maila",
+                  "Treść e-maila",
+                  "Rekomendowana propozycja",
+                  "Dlaczego warto od niej zacząć",
+                  "Pytania do klienta",
+                  "Status e-maila",
+                  "Data wysłania",
+                  "Uwagi przed wysłaniem"
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "module": "google-drive:uploadAFile",
+      "version": 4,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "filter": null,
+      "mapper": {
+        "data": "<!DOCTYPE html>\n<html lang=\"pl\">\n<head>\n  <meta charset=\"UTF-8\">\n\n  <meta\n    name=\"viewport\"\n    content=\"width=device-width, initial-scale=1.0\"\n  >\n\n  <title>Transkrypcja rozmowy</title>\n\n  <style>\n    * {\n      box-sizing: border-box;\n    }\n\n    body {\n      margin: 0;\n      padding: 30px 16px;\n      background: #0A0F1D;\n      color: #E2E8F0;\n      font-family: Arial, Helvetica, sans-serif;\n      line-height: 1.65;\n    }\n\n    .container {\n      width: 100%;\n      max-width: 1000px;\n      margin: 0 auto;\n      padding: 28px;\n      background: #111A30;\n      border: 1px solid #263553;\n      border-radius: 14px;\n      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.28);\n    }\n\n    h1 {\n      margin: 0 0 18px;\n      color: #FFFFFF;\n      font-size: 30px;\n    }\n\n    .meta {\n      margin-bottom: 22px;\n      padding: 14px;\n      background: #0D1528;\n      border: 1px solid #263553;\n      border-radius: 9px;\n      color: #AFC1D8;\n      overflow-wrap: anywhere;\n    }\n\n    .meta strong {\n      color: #FFFFFF;\n    }\n\n    .buttons {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 12px;\n      margin-bottom: 24px;\n    }\n\n    button {\n      padding: 12px 18px;\n      border: 0;\n      border-radius: 8px;\n      background: #00A8CC;\n      color: #FFFFFF;\n      font-size: 15px;\n      font-weight: bold;\n      cursor: pointer;\n    }\n\n    button:hover {\n      background: #008EAD;\n    }\n\n    button.secondary {\n      background: #2B6CB0;\n    }\n\n    button.secondary:hover {\n      background: #245A94;\n    }\n\n    .message {\n      min-height: 24px;\n      margin-bottom: 12px;\n      color: #68D391;\n      font-size: 14px;\n    }\n\n    .transcription {\n      padding: 22px;\n      background: #0D1528;\n      border: 1px solid #263553;\n      border-radius: 10px;\n      color: #E2E8F0;\n      white-space: pre-wrap;\n      overflow-wrap: anywhere;\n      word-break: normal;\n      font-family: Arial, Helvetica, sans-serif;\n      font-size: 16px;\n      line-height: 1.75;\n    }\n\n    @media (max-width: 600px) {\n      body {\n        padding: 15px 10px;\n      }\n\n      .container {\n        padding: 18px;\n      }\n\n      h1 {\n        font-size: 24px;\n      }\n\n      button {\n        width: 100%;\n      }\n    }\n  </style>\n</head>\n\n<body>\n  <main class=\"container\">\n\n    <h1>Transkrypcja rozmowy</h1>\n\n    <div class=\"meta\">\n      <strong>Nagranie:</strong>\n      {{2.name}}\n    </div>\n\n    <div class=\"buttons\">\n\n      <button\n        type=\"button\"\n        onclick=\"copyTranscription()\"\n      >\n        Kopiuj transkrypcję\n      </button>\n\n      <button\n        type=\"button\"\n        class=\"secondary\"\n        onclick=\"downloadTranscription()\"\n      >\n        Pobierz transkrypcję TXT\n      </button>\n\n    </div>\n\n    <div\n      id=\"message\"\n      class=\"message\"\n      aria-live=\"polite\"\n    ></div>\n\n    <div\n      id=\"transcription\"\n      class=\"transcription\"\n    {{5.candidates[].content.parts[].text}}\n</div>\n\n  </main>\n\n  <script>\n    function getTranscriptionText() {\n      const element =\n        document.getElementById('transcription');\n\n      return element\n        ? element.innerText.trim()\n        : '';\n    }\n\n    function showMessage(text) {\n      const message =\n        document.getElementById('message');\n\n      if (!message) {\n        return;\n      }\n\n      message.textContent = text;\n\n      window.setTimeout(function () {\n        message.textContent = '';\n      }, 3000);\n    }\n\n    async function copyTranscription() {\n      const text =\n        getTranscriptionText();\n\n      if (!text) {\n        showMessage(\n          'Brak transkrypcji do skopiowania.'\n        );\n\n        return;\n      }\n\n      try {\n        await navigator.clipboard.writeText(\n          text\n        );\n\n        showMessage(\n          'Transkrypcja została skopiowana.'\n        );\n\n      } catch (error) {\n        const temporaryField =\n          document.createElement('textarea');\n\n        temporaryField.value = text;\n        temporaryField.style.position =\n          'fixed';\n        temporaryField.style.opacity =\n          '0';\n\n        document.body.appendChild(\n          temporaryField\n        );\n\n        temporaryField.select();\n\n        document.execCommand('copy');\n\n        document.body.removeChild(\n          temporaryField\n        );\n\n        showMessage(\n          'Transkrypcja została skopiowana.'\n        );\n      }\n    }\n\n    function downloadTranscription() {\n      const text =\n        getTranscriptionText();\n\n      if (!text) {\n        showMessage(\n          'Brak transkrypcji do pobrania.'\n        );\n\n        return;\n      }\n\n      /*\n       * Znak BOM pomaga zachować prawidłowe\n       * polskie znaki po otwarciu pliku w Wordzie.\n       */\n      const content =\n        '\\uFEFF' + text;\n\n      const blob =\n        new Blob(\n          [content],\n          {\n            type:\n              'text/plain;charset=utf-8'\n          }\n        );\n\n      const url =\n        URL.createObjectURL(blob);\n\n      const link =\n        document.createElement('a');\n\n      link.href = url;\n      link.download =\n        'transkrypcja.txt';\n\n      document.body.appendChild(link);\n\n      link.click();\n\n      document.body.removeChild(link);\n\n      window.setTimeout(function () {\n        URL.revokeObjectURL(url);\n      }, 1000);\n\n      showMessage(\n        'Rozpoczęto pobieranie transkrypcji.'\n      );\n    }\n  </script>\n</body>\n</html>",
+        "select": "value",
+        "convert": false,
+        "filename": "replace({{3.name}}; \".m4a\"; \".html\")",
+        "folderId": "/YOUR_GOOGLE_DRIVE_ID/YOUR_HTML_TRANSCRIPTS_FOLDER_ID",
+        "destination": "drive"
+      },
+      "metadata": {
+        "designer": {
+          "x": 2400,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "select": {
+              "label": "Select from the list"
+            },
+            "folderId": {
+              "mode": "chose",
+              "path": [
+                "YOUR_GOOGLE_DRIVE_ID",
+                "01. Transkrypcje HTML"
+              ]
+            },
+            "destination": {
+              "label": "My Drive"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GOOGLE_DRIVE_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-restricted,google-drive",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "select",
+            "type": "select",
+            "label": "Enter a Folder ID",
+            "required": true,
+            "validate": {
+              "enum": [
+                "map",
+                "value"
+              ]
+            }
+          },
+          {
+            "name": "title",
+            "type": "text",
+            "label": "New File Name"
+          },
+          {
+            "name": "filename",
+            "type": "text",
+            "label": "File Name",
+            "required": true
+          },
+          {
+            "name": "data",
+            "type": "buffer",
+            "label": "Data",
+            "required": true
+          },
+          {
+            "name": "convert",
+            "type": "boolean",
+            "label": "Convert a File",
+            "required": true
+          },
+          {
+            "name": "destination",
+            "type": "select",
+            "label": "New Drive Location",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share",
+                "team"
+              ]
+            }
+          },
+          {
+            "name": "folderId",
+            "type": "folder",
+            "label": "New Folder Location",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "mapper": {
+        "from": "drive",
+        "mode": "select",
+        "values": {
+          "0": "{{2.id}}",
+          "1": "{{formatDate(now; \"YYYY-MM-DD\"; \"Europe/Warsaw\")}}",
+          "2": "{{formatDate(now; \"HH:mm\"; \"Europe/Warsaw\")}}",
+          "3": "{{2.name}}",
+          "5": "Pełna transkrypcja jest dostępna po kliknięciu „Otwórz HTML”.",
+          "6": "Gotowe",
+          "7": "{{formatDate(now; \"YYYY-MM-DD HH:mm:ss\"; \"Europe/Warsaw\")}}",
+          "8": "NIE",
+          "9": "{{18.webViewLink}}",
+          "10": "{{2.webViewLink}}"
+        },
+        "sheetId": "Baza spotkań",
+        "spreadsheetId": "/YOUR_GOOGLE_DRIVE_ID/YOUR_GOOGLE_SHEET_ID",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "useColumnHeaders": false,
+        "valueInputOption": "USER_ENTERED",
+        "insertUnformatted": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 2700,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "from": {
+              "label": "My Drive"
+            },
+            "mode": {
+              "label": "Search by path"
+            },
+            "sheetId": {
+              "label": "Baza spotkań"
+            },
+            "spreadsheetId": {
+              "path": [
+                "YOUR_GOOGLE_DRIVE_ID",
+                "Baza_spotkan_klientow"
+              ]
+            },
+            "includesHeaders": {
+              "label": "Yes"
+            },
+            "insertDataOption": {
+              "mode": "chose",
+              "label": "Insert rows"
+            },
+            "useColumnHeaders": {
+              "label": "No"
+            },
+            "valueInputOption": {
+              "mode": "chose",
+              "label": "User entered"
+            },
+            "insertUnformatted": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GOOGLE_SHEETS_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "mode",
+            "type": "select",
+            "label": "Search Method",
+            "required": true,
+            "validate": {
+              "enum": [
+                "select",
+                "fromAll",
+                "map"
+              ]
+            }
+          },
+          {
+            "name": "insertUnformatted",
+            "type": "boolean",
+            "label": "Unformatted",
+            "required": true
+          },
+          {
+            "name": "valueInputOption",
+            "type": "select",
+            "label": "Value input option",
+            "required": true,
+            "validate": {
+              "enum": [
+                "USER_ENTERED",
+                "RAW"
+              ]
+            }
+          },
+          {
+            "name": "insertDataOption",
+            "type": "select",
+            "label": "Insert data option",
+            "validate": {
+              "enum": [
+                "INSERT_ROWS",
+                "OVERWRITE"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "type": "select",
+            "label": "Drive",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share",
+                "team"
+              ]
+            }
+          },
+          {
+            "name": "spreadsheetId",
+            "type": "file",
+            "label": "Spreadsheet Name",
+            "required": true
+          },
+          {
+            "name": "sheetId",
+            "type": "select",
+            "label": "Sheet Name",
+            "required": true
+          },
+          {
+            "name": "includesHeaders",
+            "type": "select",
+            "label": "Table contains headers",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "useColumnHeaders",
+            "type": "select",
+            "label": "Use column headers as IDs of the columns",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "values",
+            "spec": [
+              {
+                "name": "0",
+                "type": "text",
+                "label": "ID (A)"
+              },
+              {
+                "name": "1",
+                "type": "text",
+                "label": "Data (B)"
+              },
+              {
+                "name": "2",
+                "type": "text",
+                "label": "Godzina (C)"
+              },
+              {
+                "name": "3",
+                "type": "text",
+                "label": "Klient (D)"
+              },
+              {
+                "name": "4",
+                "type": "text",
+                "label": "Czas rozmowy (E)"
+              },
+              {
+                "name": "5",
+                "type": "text",
+                "label": "Transkrypcja (F)"
+              },
+              {
+                "name": "6",
+                "type": "text",
+                "label": "Status (G)"
+              },
+              {
+                "name": "7",
+                "type": "text",
+                "label": "Data dodania (H)"
+              },
+              {
+                "name": "8",
+                "type": "text",
+                "label": "Usunięty (I)"
+              },
+              {
+                "name": "9",
+                "type": "text",
+                "label": "Link HTML (J)"
+              },
+              {
+                "name": "10",
+                "type": "text",
+                "label": "Link audio (K)"
+              },
+              {
+                "name": "11",
+                "type": "text",
+                "label": "(L)"
+              },
+              {
+                "name": "12",
+                "type": "text",
+                "label": "(M)"
+              },
+              {
+                "name": "13",
+                "type": "text",
+                "label": "(N)"
+              },
+              {
+                "name": "14",
+                "type": "text",
+                "label": "(O)"
+              },
+              {
+                "name": "15",
+                "type": "text",
+                "label": "(P)"
+              },
+              {
+                "name": "16",
+                "type": "text",
+                "label": "(Q)"
+              },
+              {
+                "name": "17",
+                "type": "text",
+                "label": "(R)"
+              },
+              {
+                "name": "18",
+                "type": "text",
+                "label": "(S)"
+              },
+              {
+                "name": "19",
+                "type": "text",
+                "label": "(T)"
+              },
+              {
+                "name": "20",
+                "type": "text",
+                "label": "(U)"
+              },
+              {
+                "name": "21",
+                "type": "text",
+                "label": "(V)"
+              },
+              {
+                "name": "22",
+                "type": "text",
+                "label": "(W)"
+              },
+              {
+                "name": "23",
+                "type": "text",
+                "label": "(X)"
+              },
+              {
+                "name": "24",
+                "type": "text",
+                "label": "(Y)"
+              },
+              {
+                "name": "25",
+                "type": "text",
+                "label": "(Z)"
+              }
+            ],
+            "type": "collection",
+            "label": "Values in columns",
+            "metadata": [
+              [
+                [
+                  "ID",
+                  "Data",
+                  "Godzina",
+                  "Klient",
+                  "Czas rozmowy",
+                  "Transkrypcja",
+                  "Status",
+                  "Data dodania",
+                  "Usunięty",
+                  "Link HTML",
+                  "Link audio"
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "module": "google-drive:moveAFileIntoAFolder",
+      "version": 4,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "filter": null,
+      "mapper": {
+        "file": "{{2.id}}",
+        "move": "drive",
+        "select": "file",
+        "folderId": "/YOUR_GOOGLE_DRIVE_ID/YOUR_PROCESSED_AUDIO_FOLDER_ID",
+        "destination": "drive"
+      },
+      "metadata": {
+        "designer": {
+          "x": 3000,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "file": {
+              "mode": "edit",
+              "path": []
+            },
+            "move": {
+              "label": "My Drive"
+            },
+            "select": {
+              "label": "File"
+            },
+            "folderId": {
+              "mode": "chose",
+              "path": [
+                "YOUR_GOOGLE_DRIVE_ID",
+                "04. Audio duże — przetworzone"
+              ]
+            },
+            "destination": {
+              "label": "My Drive"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GOOGLE_DRIVE_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google-restricted,google-drive",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "move",
+            "type": "select",
+            "label": "Choose a Drive",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share",
+                "team"
+              ]
+            }
+          },
+          {
+            "name": "destination",
+            "type": "select",
+            "label": "New Drive Location",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share",
+                "team"
+              ]
+            }
+          },
+          {
+            "name": "select",
+            "type": "select",
+            "label": "Select File/Folder",
+            "required": true,
+            "validate": {
+              "enum": [
+                "file",
+                "folder"
+              ]
+            }
+          },
+          {
+            "mode": "edit",
+            "name": "file",
+            "type": "file",
+            "label": "File ID",
+            "required": true
+          },
+          {
+            "name": "folderId",
+            "type": "folder",
+            "label": "New Folder Location",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{10.kalkulacje_korzysci}}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 3300,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "array": {
+              "mode": "edit"
+            }
+          }
+        },
+        "expect": [
+          {
+            "mode": "edit",
+            "name": "array",
+            "spec": [],
+            "type": "array",
+            "label": "Array"
+          }
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "module": "google-sheets:addRow",
+      "version": 2,
+      "parameters": {
+        "__IMTCONN__": 0
+      },
+      "mapper": {
+        "from": "drive",
+        "mode": "select",
+        "values": {
+          "0": "{{2.id}}",
+          "1": "{{2.name}}",
+          "2": "{{16.obszar_usprawnienia}}",
+          "3": "{{16.obecna_czynnosc}}",
+          "4": "{{16.osoba_wykonujaca}}",
+          "5": "{{16.czas_jednej_czynnosci}}",
+          "6": "{{16.czestotliwosc}}",
+          "7": "{{16.szacowany_czas_miesieczny}}",
+          "8": "{{16.koszt_godziny_pracy}}",
+          "9": "{{16.mozliwa_oszczednosc_miesieczna}}",
+          "10": "{{16.mozliwa_oszczednosc_roczna}}",
+          "11": "{{16.mozliwy_dodatkowy_przychod}}",
+          "12": "{{16.koszt_wdrozenia}}",
+          "13": "{{16.szacowany_czas_zwrotu}}",
+          "14": "{{16.zrodlo_danych}}",
+          "15": "{{16.status_danych}}",
+          "16": "{{16.zalozenia_i_uwagi}}"
+        },
+        "sheetId": "Kalkulacje korzyści",
+        "spreadsheetId": "/YOUR_GOOGLE_DRIVE_ID/YOUR_GOOGLE_SHEET_ID",
+        "includesHeaders": true,
+        "insertDataOption": "INSERT_ROWS",
+        "useColumnHeaders": false,
+        "valueInputOption": "USER_ENTERED",
+        "insertUnformatted": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 3600,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "from": {
+              "label": "My Drive"
+            },
+            "mode": {
+              "label": "Search by path"
+            },
+            "sheetId": {
+              "label": "Kalkulacje korzyści"
+            },
+            "spreadsheetId": {
+              "path": [
+                "YOUR_GOOGLE_DRIVE_ID",
+                "Baza_spotkan_klientow"
+              ]
+            },
+            "includesHeaders": {
+              "label": "Yes"
+            },
+            "insertDataOption": {
+              "mode": "chose",
+              "label": "Insert rows"
+            },
+            "useColumnHeaders": {
+              "label": "No"
+            },
+            "valueInputOption": {
+              "mode": "chose",
+              "label": "User entered"
+            },
+            "insertUnformatted": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "YOUR_GOOGLE_SHEETS_CONNECTION"
+              },
+              "label": "YOUR_ACCOUNT"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:google",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "mode",
+            "type": "select",
+            "label": "Search Method",
+            "required": true,
+            "validate": {
+              "enum": [
+                "select",
+                "fromAll",
+                "map"
+              ]
+            }
+          },
+          {
+            "name": "insertUnformatted",
+            "type": "boolean",
+            "label": "Unformatted",
+            "required": true
+          },
+          {
+            "name": "valueInputOption",
+            "type": "select",
+            "label": "Value input option",
+            "required": true,
+            "validate": {
+              "enum": [
+                "USER_ENTERED",
+                "RAW"
+              ]
+            }
+          },
+          {
+            "name": "insertDataOption",
+            "type": "select",
+            "label": "Insert data option",
+            "validate": {
+              "enum": [
+                "INSERT_ROWS",
+                "OVERWRITE"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "type": "select",
+            "label": "Drive",
+            "required": true,
+            "validate": {
+              "enum": [
+                "drive",
+                "share",
+                "team"
+              ]
+            }
+          },
+          {
+            "name": "spreadsheetId",
+            "type": "file",
+            "label": "Spreadsheet Name",
+            "required": true
+          },
+          {
+            "name": "sheetId",
+            "type": "select",
+            "label": "Sheet Name",
+            "required": true
+          },
+          {
+            "name": "includesHeaders",
+            "type": "select",
+            "label": "Table contains headers",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "useColumnHeaders",
+            "type": "select",
+            "label": "Use column headers as IDs of the columns",
+            "required": true,
+            "validate": {
+              "enum": [
+                true,
+                false
+              ]
+            }
+          },
+          {
+            "name": "values",
+            "spec": [
+              {
+                "name": "0",
+                "type": "text",
+                "label": "ID spotkania (A)"
+              },
+              {
+                "name": "1",
+                "type": "text",
+                "label": "Klient (B)"
+              },
+              {
+                "name": "2",
+                "type": "text",
+                "label": "Obszar usprawnienia (C)"
+              },
+              {
+                "name": "3",
+                "type": "text",
+                "label": "Obecna czynność (D)"
+              },
+              {
+                "name": "4",
+                "type": "text",
+                "label": "Osoba wykonująca (E)"
+              },
+              {
+                "name": "5",
+                "type": "text",
+                "label": "Czas jednej czynności (F)"
+              },
+              {
+                "name": "6",
+                "type": "text",
+                "label": "Częstotliwość (G)"
+              },
+              {
+                "name": "7",
+                "type": "text",
+                "label": "Szacowany czas miesięczny (H)"
+              },
+              {
+                "name": "8",
+                "type": "text",
+                "label": "Koszt godziny pracy (I)"
+              },
+              {
+                "name": "9",
+                "type": "text",
+                "label": "Możliwa oszczędność miesięczna (J)"
+              },
+              {
+                "name": "10",
+                "type": "text",
+                "label": "Możliwa oszczędność roczna (K)"
+              },
+              {
+                "name": "11",
+                "type": "text",
+                "label": "Możliwy dodatkowy przychód (L)"
+              },
+              {
+                "name": "12",
+                "type": "text",
+                "label": "Koszt wdrożenia (M)"
+              },
+              {
+                "name": "13",
+                "type": "text",
+                "label": "Szacowany czas zwrotu (N)"
+              },
+              {
+                "name": "14",
+                "type": "text",
+                "label": "Źródło danych (O)"
+              },
+              {
+                "name": "15",
+                "type": "text",
+                "label": "Status danych (P)"
+              },
+              {
+                "name": "16",
+                "type": "text",
+                "label": "Założenia i uwagi (Q)"
+              },
+              {
+                "name": "17",
+                "type": "text",
+                "label": "(R)"
+              },
+              {
+                "name": "18",
+                "type": "text",
+                "label": "(S)"
+              },
+              {
+                "name": "19",
+                "type": "text",
+                "label": "(T)"
+              },
+              {
+                "name": "20",
+                "type": "text",
+                "label": "(U)"
+              },
+              {
+                "name": "21",
+                "type": "text",
+                "label": "(V)"
+              },
+              {
+                "name": "22",
+                "type": "text",
+                "label": "(W)"
+              },
+              {
+                "name": "23",
+                "type": "text",
+                "label": "(X)"
+              },
+              {
+                "name": "24",
+                "type": "text",
+                "label": "(Y)"
+              },
+              {
+                "name": "25",
+                "type": "text",
+                "label": "(Z)"
+              }
+            ],
+            "type": "collection",
+            "label": "Values in columns",
+            "metadata": [
+              [
+                [
+                  "ID spotkania",
+                  "Klient",
+                  "Obszar usprawnienia",
+                  "Obecna czynność",
+                  "Osoba wykonująca",
+                  "Czas jednej czynności",
+                  "Częstotliwość",
+                  "Szacowany czas miesięczny",
+                  "Koszt godziny pracy",
+                  "Możliwa oszczędność miesięczna",
+                  "Możliwa oszczędność roczna",
+                  "Możliwy dodatkowy przychód",
+                  "Koszt wdrożenia",
+                  "Szacowany czas zwrotu",
+                  "Źródło danych",
+                  "Status danych",
+                  "Założenia i uwagi"
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    },
+    "zone": "eu1.make.com",
+    "notes": []
+  }
+}
