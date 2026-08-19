@@ -33,9 +33,17 @@ Nie zastępuje to decyzji człowieka. Wynik trzeba przeczytać i potwierdzić pr
 
 ## Aplikacja na telefonie
 
-Poniżej znajduje się rzeczywisty ekran demonstracyjnej aplikacji. Użytkownik widzi zapisane nagrania i może rozpocząć kolejne nagranie jednym przyciskiem.
+### 1. Nowe spotkanie
 
-![Ekran aplikacji Dyktafon AI na telefonie](docs/aplikacja-mobilna.png)
+Przed rozpoczęciem rozmowy użytkownik wpisuje klienta lub firmę i potwierdza zgodę rozmówcy na nagrywanie. Dopiero wtedy można rozpocząć nagranie.
+
+![Ekran „Nowe spotkanie” w aplikacji CRM Dyktafon](docs/aplikacja-nowe-spotkanie.png)
+
+### 2. Gotowe nagranie
+
+Po zakończeniu rozmowy aplikacja pokazuje nazwę pliku, czas nagrania i datę utworzenia. Użytkownik może następnie jednym przyciskiem wysłać nagranie do analizy.
+
+![Ekran „Gotowe nagranie” w aplikacji CRM Dyktafon](docs/aplikacja-gotowe-nagranie.png)
 
 ## Co daje firmie?
 
