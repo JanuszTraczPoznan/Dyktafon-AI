@@ -1,21 +1,72 @@
-# Dyktafon AI
+# Dyktafon AI — z rozmowy do ustaleń i terminów
 
-System do nagrywania rozmów na telefonie oraz automatycznej transkrypcji i analizy nagrań z wykorzystaniem Make i Google Gemini.
+## Po co powstał ten projekt?
 
-Projekt łączy aplikację mobilną z automatyzacjami w Make. Wyniki analizy mogą być zapisywane w Google Sheets i prezentowane w pliku HTML.
+Po rozmowie z klientem często zostają notatki na kartce, kilka wiadomości albo zwykłe „trzeba pamiętać”. Łatwo wtedy pominąć ustalenie, zadanie lub termin.
+
+Dyktafon AI pomaga zamienić nagraną rozmowę w uporządkowany zapis: krótkie podsumowanie, najważniejsze ustalenia, listę zadań i terminy do dopilnowania.
+
+To demonstracyjny projekt rozwijany przez Janusza Tracza w ramach projektu MediaWizja. Nie jest gotowym produktem do samodzielnego użycia bez konfiguracji i testów.
+
+## Przykład z życia
+
+Cieśla rozmawia z klientem o zabudowie tarasu. Padają konkretne ustalenia: wymiary, wybrany materiał, termin oględzin i przygotowanie wyceny.
+
+Po rozmowie można wracać do nagrania i szukać informacji od początku. W tym rozwiązaniu z nagrania może powstać czytelna lista:
+
+- co zostało ustalone,
+- co należy przygotować,
+- kto ma wykonać dane zadanie,
+- do kiedy trzeba wrócić do klienta.
+
+Tak samo rozwiązanie może pomóc w gabinecie, biurze księgowym, firmie budowlanej albo innym zakładzie usługowym — wszędzie tam, gdzie ważne ustalenia zapadają podczas rozmów.
+
+## Jak wygląda to w prostych krokach?
+
+1. Rozmowa zostaje nagrana za zgodą uczestników.
+2. System przygotowuje zapis rozmowy.
+3. Z zapisu wyciąga najważniejsze ustalenia, zadania i terminy.
+4. Wynik trafia do jednego, uporządkowanego miejsca do dalszego sprawdzenia.
+
+Nie zastępuje to decyzji człowieka. Wynik trzeba przeczytać i potwierdzić przed wykorzystaniem w pracy.
+
+## Co daje firmie?
+
+- mniej spraw, o których można zapomnieć,
+- mniej czasu na ręczne przepisywanie ustaleń,
+- łatwiejsze pilnowanie terminów,
+- prostsze przekazanie sprawy drugiej osobie,
+- uporządkowany punkt odniesienia po rozmowie z klientem.
+
+## Dla kogo jest ten przykład?
+
+Dla właściciela lub zespołu, który prowadzi rozmowy z klientami i chce lepiej panować nad ustaleniami. Przykładowo: dla małego gabinetu, firmy remontowej, biura rachunkowego, zakładu stolarskiego czy firmy usługowej.
+
+## Ważne zasady prywatności
+
+Rozmowy można nagrywać wyłącznie za wiedzą i zgodą uczestników oraz zgodnie z obowiązującymi zasadami ochrony danych. W publicznym repozytorium nie ma prawdziwych nagrań, transkrypcji ani danych klientów.
+
+## Stan projektu
+
+Projekt jest w trakcie rozwoju i został przetestowany w zakresie nagrywania, przesyłania, tworzenia zapisu rozmowy oraz przygotowywania podsumowań. Przed użyciem w prawdziwej firmie wymaga indywidualnej konfiguracji, testów i sprawdzenia bezpieczeństwa.
+
+---
+
+# Informacje techniczne
+
+Poniższa część jest przeznaczona dla osób, które chcą zobaczyć sposób zbudowania demonstracji.
 
 ## Najważniejsze funkcje
 
 - nagrywanie rozmów w aplikacji mobilnej,
 - nadawanie nagraniom własnych nazw,
 - przechowywanie nagrań w telefonie,
-- wysyłanie krótkich nagrań bezpośrednio do Make,
-- obsługa dużych nagrań przez Google Drive,
+- wysyłanie krótkich nagrań do scenariusza automatyzacji,
+- obsługa większych nagrań przez dysk w chmurze,
 - transkrypcja nagrania z podziałem na osoby,
 - tworzenie podsumowania rozmowy,
-- rozpoznawanie firmy i uczestników,
 - wyodrębnianie ustaleń, zadań i terminów,
-- zapis wyników w Google Sheets,
+- zapis wyników w arkuszu,
 - przygotowanie czytelnego widoku HTML.
 
 ## Jak działa system
@@ -23,158 +74,67 @@ Projekt łączy aplikację mobilną z automatyzacjami w Make. Wyniki analizy mog
 ### Krótkie nagrania
 
 1. Użytkownik rozpoczyna i kończy nagrywanie w aplikacji mobilnej.
-2. Aplikacja przesyła nagranie do webhooka Make.
-3. Make przekazuje plik wraz z poleceniem do Google Gemini.
-4. Gemini wykonuje transkrypcję i analizę.
-5. Make zapisuje wynik w Google Sheets oraz przygotowuje widok HTML.
+2. Aplikacja przesyła nagranie do automatyzacji.
+3. Automatyzacja przekazuje plik do analizy AI.
+4. AI przygotowuje zapis i analizę rozmowy.
+5. Wynik jest zapisywany w arkuszu oraz prezentowany w widoku HTML.
 
 ### Duże nagrania
 
-1. Nagranie zostaje zapisane w Google Drive.
-2. Osobny scenariusz Make pobiera nowy plik.
-3. Make przekazuje nagranie do Google Gemini.
-4. Gemini wykonuje transkrypcję i analizę.
-5. Make zapisuje wynik w Google Sheets oraz przygotowuje widok HTML.
+1. Nagranie zostaje zapisane na dysku w chmurze.
+2. Osobny scenariusz pobiera nowy plik.
+3. Plik trafia do analizy AI.
+4. AI przygotowuje zapis i analizę rozmowy.
+5. Wynik jest zapisywany w arkuszu oraz prezentowany w widoku HTML.
 
 ## Zasada ograniczania kosztów
 
-Jedno nagranie powinno powodować jedno wywołanie Google Gemini. Odpowiedź modelu zawiera jednocześnie transkrypcję, podsumowanie i pozostałe informacje. Kolejne moduły Make korzystają z już otrzymanego wyniku, bez ponownego wysyłania tego samego nagrania do modelu.
+Jedno nagranie powinno powodować jedno wywołanie modelu AI. Odpowiedź zawiera jednocześnie transkrypcję, podsumowanie i pozostałe informacje, dzięki czemu nie trzeba wielokrotnie analizować tego samego pliku.
 
 ## Struktura repozytorium
 
 ```text
 Dyktafon-AI/
-├── make/
-│   ├── ...OCZYSZCZONY....json
-│   └── ...OCZYSZCZONY....json
-├── mobile-app/
-│   ├── App.js
-│   ├── app.json
-│   ├── index.js
-│   ├── package.json
-│   ├── assets/
-│   └── components/
+├── make/        — oczyszczone scenariusze automatyzacji
+├── mobile-app/  — kod aplikacji mobilnej
+├── docs/        — materiały pomocnicze
 └── README.md
 ```
 
-### `make`
+Folder `make` zawiera dwa oczyszczone blueprinty scenariuszy: dla nagrań wysyłanych bezpośrednio z aplikacji oraz dla większych nagrań pobieranych z dysku w chmurze.
 
-Folder zawiera dwa oczyszczone blueprinty scenariuszy Make:
-
-1. scenariusz dla nagrań wysyłanych bezpośrednio z aplikacji,
-2. scenariusz dla dużych nagrań pobieranych z Google Drive.
-
-Blueprint to plik JSON zawierający układ scenariusza Make i jego moduły. Po imporcie trzeba podłączyć własne konta i uzupełnić własne ustawienia.
-
-### `mobile-app`
-
-Folder zawiera kod aplikacji mobilnej wyeksportowany z Expo Snack. Publiczna wersja kodu nie zawiera działającego adresu webhooka Make.
+Folder `mobile-app` zawiera kod aplikacji mobilnej. Publiczna wersja nie zawiera działającego adresu webhooka ani danych dostępowych.
 
 ## Wymagane usługi
 
-Do uruchomienia całego systemu potrzebne są:
+Do uruchomienia demonstracji potrzebne są:
 
-- konto Expo Snack lub lokalne środowisko Expo,
-- konto Make,
-- dostęp do Google Gemini API,
-- konto Google Drive,
-- arkusz Google Sheets,
+- Expo Snack lub lokalne środowisko Expo,
+- Make,
+- Google Gemini API,
+- Google Drive,
+- Google Sheets,
 - telefon z systemem Android lub iOS i aplikacją Expo Go — jeśli projekt jest testowany przez Expo.
 
-## Konfiguracja aplikacji mobilnej
-
-1. Otwórz projekt w Expo Snack albo uruchom go lokalnie jako projekt Expo.
-2. Zainstaluj zależności zapisane w pliku `package.json`.
-3. W pliku `App.js` znajdź miejsce przeznaczone na adres webhooka.
-4. Zastąp tekst zastępczy własnym adresem webhooka Make.
-5. Nie publikuj działającego adresu webhooka w publicznym repozytorium.
-6. Uruchom aplikację i wykonaj krótkie nagranie testowe.
-
-> Dokładne wersje bibliotek i zależności znajdują się w pliku `mobile-app/package.json`.
-
-## Import scenariuszy Make
-
-1. Zaloguj się do Make.
-2. Utwórz nowy, pusty scenariusz.
-3. W menu scenariusza wybierz opcję importowania blueprintu.
-4. Wskaż jeden z plików JSON z folderu `make`.
-5. Podłącz własne połączenia z usługami Google i Google Gemini.
-6. Ustaw własny webhook, folder Google Drive i arkusz Google Sheets.
-7. Sprawdź mapowanie danych w każdym module.
-8. Zapisz scenariusz.
-9. Najpierw wykonaj test na krótkim, niepoufnym nagraniu.
-10. Dopiero po udanym teście włącz harmonogram scenariusza.
-
-Zaimportowany blueprint nie udostępnia cudzych połączeń z kontami. Każdy użytkownik musi utworzyć lub wskazać własne połączenia.
-
-## Przykładowy wynik analizy
-
-Wynik może zawierać:
-
-- nazwę spotkania,
-- datę rozmowy,
-- nazwę firmy,
-- listę uczestników,
-- pełną transkrypcję z podziałem na osoby,
-- krótkie podsumowanie,
-- najważniejsze ustalenia,
-- zadania do wykonania,
-- osoby odpowiedzialne,
-- terminy,
-- dodatkowe uwagi.
-
-Zakres wyniku zależy od polecenia użytego w scenariuszu Make.
-
-## Testy projektu
-
-W czasie rozwoju sprawdzono między innymi:
-
-- krótkie nagrania wysyłane bezpośrednio z telefonu,
-- dłuższe nagrania zapisywane w Google Drive,
-- zachowanie nagrań po ponownym uruchomieniu aplikacji,
-- działanie kolejki nagrań bez dostępu do internetu,
-- ponowną wysyłkę po odzyskaniu połączenia,
-- generowanie transkrypcji, analizy i wpisów w Google Sheets,
-- obsługę nagrań trwających około 40–60 minut.
-
-Repozytorium przedstawia projekt w trakcie rozwoju. Przed użyciem z prawdziwymi danymi należy ponownie przetestować wszystkie połączenia i moduły.
-
-## Bezpieczeństwo i prywatność
+## Bezpieczeństwo
 
 W publicznym repozytorium nie wolno umieszczać:
 
-- kluczy API,
-- tokenów i haseł,
+- kluczy API, tokenów i haseł,
 - działających adresów webhooków,
 - prywatnych identyfikatorów folderów i arkuszy,
 - danych logowania,
 - prawdziwych nagrań klientów,
 - transkrypcji zawierających dane osobowe,
-- oryginalnych, nieoczyszczonych blueprintów.
+- nieoczyszczonych blueprintów scenariuszy.
 
-Przed każdym opublikowaniem zmian należy ponownie sprawdzić wszystkie pliki. Jeżeli działający webhook został wcześniej ujawniony, należy utworzyć nowy adres w Make i wyłączyć stary.
-
-Użytkownik systemu odpowiada za uzyskanie zgody na nagrywanie rozmów oraz za zgodne z prawem przechowywanie i przetwarzanie nagrań.
-
-## Aktualny stan
-
-Obecna wersja repozytorium zawiera:
-
-- oczyszczony kod aplikacji mobilnej,
-- dwa oczyszczone scenariusze Make,
-- obsługę krótkich i dużych nagrań,
-- integrację z Google Gemini,
-- zapis wyników do Google Sheets,
-- generowanie widoku HTML.
+Jeżeli działający webhook został wcześniej ujawniony, należy utworzyć nowy adres i wyłączyć poprzedni.
 
 ## Plan dalszego rozwoju
 
-- zachowanie nazwy wpisanej w telefonie jako nazwy pliku `.m4a`,
-- automatyczne uruchamianie scenariusza po pojawieniu się nowego pliku w Google Drive,
-- możliwość usuwania wpisów w widoku HTML,
 - dalsze testy obsługi błędów i ponownej wysyłki,
 - przygotowanie bezpiecznych zrzutów ekranu i schematu systemu,
-- dalsza optymalizacja kosztów Google Gemini API.
+- dalsza optymalizacja kosztów analizy AI.
 
 ## Dokumentacja użytych usług
 
@@ -183,7 +143,3 @@ Obecna wersja repozytorium zawiera:
 - [Google Gemini API](https://ai.google.dev/gemini-api/docs)
 - [Google Drive](https://developers.google.com/drive)
 - [Google Sheets API](https://developers.google.com/workspace/sheets/api/guides/concepts)
-
-## Informacja
-
-Projekt ma charakter rozwojowy i edukacyjny. Przed wykorzystaniem produkcyjnym wymaga własnej konfiguracji, testów bezpieczeństwa oraz sprawdzenia zasad przetwarzania danych.
