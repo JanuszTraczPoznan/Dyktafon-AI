@@ -4,7 +4,7 @@
 
 Po rozmowie z klientem często zostają notatki na kartce, kilka wiadomości albo zwykłe „trzeba pamiętać”. Łatwo wtedy pominąć ustalenie, zadanie lub termin.
 
-Dyktafon AI pomaga zamienić nagraną rozmowę w uporządkowany zapis: krótkie podsumowanie, najważniejsze ustalenia, listę zadań i terminy do dopilnowania.
+Dyktafon AI analizuje całą nagraną rozmowę i zamienia ją w uporządkowany zapis. Wyszukuje w niej najważniejsze informacje — na przykład wymiary, wybrany materiał, kwoty, terminy, wymagania klienta oraz kolejne zadania — a następnie przygotowuje krótkie podsumowanie i listę spraw do dopilnowania.
 
 To demonstracyjny projekt rozwijany przez Janusza Tracza w ramach projektu MediaWizja. Nie jest gotowym produktem do samodzielnego użycia bez konfiguracji i testów.
 
@@ -14,8 +14,9 @@ Cieśla rozmawia z klientem o zabudowie tarasu. Padają konkretne ustalenia: wym
 
 Po rozmowie można wracać do nagrania i szukać informacji od początku. W tym rozwiązaniu z nagrania może powstać czytelna lista:
 
-- co zostało ustalone,
-- co należy przygotować,
+- jakie są wymiary i zakres prac,
+- jaki materiał wybrał klient,
+- co zostało ustalone w sprawie wyceny,
 - kto ma wykonać dane zadanie,
 - do kiedy trzeba wrócić do klienta.
 
@@ -25,8 +26,8 @@ Tak samo rozwiązanie może pomóc w gabinecie, biurze księgowym, firmie budowl
 
 1. Rozmowa zostaje nagrana za zgodą uczestników.
 2. System przygotowuje zapis rozmowy.
-3. Z zapisu wyciąga najważniejsze ustalenia, zadania i terminy.
-4. Wynik trafia do jednego, uporządkowanego miejsca do dalszego sprawdzenia.
+3. AI analizuje całą treść i wybiera najważniejsze fakty: ustalenia, wymagania, wymiary, materiały, kwoty, zadania i terminy.
+4. Wynik trafia do arkusza oraz czytelnego widoku na komputerze, gdzie można go wygodnie sprawdzić.
 
 Nie zastępuje to decyzji człowieka. Wynik trzeba przeczytać i potwierdzić przed wykorzystaniem w pracy.
 
@@ -36,7 +37,23 @@ Nie zastępuje to decyzji człowieka. Wynik trzeba przeczytać i potwierdzić pr
 - mniej czasu na ręczne przepisywanie ustaleń,
 - łatwiejsze pilnowanie terminów,
 - prostsze przekazanie sprawy drugiej osobie,
-- uporządkowany punkt odniesienia po rozmowie z klientem.
+- uporządkowany punkt odniesienia po rozmowie z klientem,
+- jedno miejsce do wygodnego śledzenia wielu klientów i spraw.
+
+## Gdy pojawia się więcej klientów
+
+Każda rozmowa może zostać zapisana jako osobna sprawa w arkuszu, a następnie pokazana w czytelnym widoku na komputerze. Dzięki temu właściciel firmy nie musi przeszukiwać wielu nagrań, kartek i wiadomości.
+
+W jednym miejscu może sprawdzić między innymi:
+
+- wszystkie bieżące zlecenia i ich etap,
+- uzgodnione wymagania klienta,
+- terminy i zadania do wykonania,
+- przygotowanie wyceny i rozliczenia,
+- sprawy wymagające odpowiedzi e-mail,
+- materiały lub usługi, które trzeba zamówić.
+
+To pomaga panować nad codzienną pracą, kiedy rozmów i zleceń jest więcej. Zakres widoku można dopasować do sposobu pracy konkretnej firmy.
 
 ## Dla kogo jest ten przykład?
 
