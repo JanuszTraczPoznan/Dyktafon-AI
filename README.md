@@ -31,6 +31,12 @@ Tak samo rozwiązanie może pomóc w gabinecie, biurze księgowym, firmie budowl
 
 Nie zastępuje to decyzji człowieka. Wynik trzeba przeczytać i potwierdzić przed wykorzystaniem w pracy.
 
+## Aplikacja na telefonie
+
+Poniżej znajduje się rzeczywisty ekran demonstracyjnej aplikacji. Użytkownik widzi zapisane nagrania i może rozpocząć kolejne nagranie jednym przyciskiem.
+
+![Ekran aplikacji Dyktafon AI na telefonie](docs/aplikacja-mobilna.png)
+
 ## Co daje firmie?
 
 - mniej spraw, o których można zapomnieć,
@@ -103,6 +109,12 @@ Poniższa część jest przeznaczona dla osób, które chcą zobaczyć sposób z
 3. Plik trafia do analizy AI.
 4. AI przygotowuje zapis i analizę rozmowy.
 5. Wynik jest zapisywany w arkuszu oraz prezentowany w widoku HTML.
+
+### Schemat krótkiego nagrania
+
+Poniższy schemat pokazuje techniczne zaplecze demonstracji: nagranie trafia do automatyzacji, AI przygotowuje analizę, a wynik zostaje zapisany w arkuszu.
+
+![Schemat obsługi krótkiego nagrania](docs/scenariusz-make-krotkie-nagrania.png)
 
 ## Zasada ograniczania kosztów
 
